@@ -18,12 +18,13 @@ root.geometry('600x400')
 #mostrar o tempo config
 def mostrarotempo():
     duracaoatual = pygame.mixer.music.get_pos()/1000
+    tempo2 = time.strftime('%M:%S', time.gmtime(int(duracaoatual)))
     
     
     musicaatual = musicas.curselection()
-    song = musicas.get(ACTIVE)
-    song = f'C:/mp3player/musicas/{song}.mp3'
-    song_mut = MP3(song)
+    songs = musicas.get(ACTIVE)
+    songs = f'C:/mp3player/musicas/{songs}.mp3'
+    song_mut = MP3(songs)
 
     global duracaototal
     duracaototal = song_mut.info.length
@@ -32,7 +33,7 @@ def mostrarotempo():
     duracaoatual +=1
 
     if int(slider.get()) == int(duracaototal):
-        barrinha.config(text=f'{tempo3}/{tempo3}')
+        barra.config(text=f'{tempo3}/{tempo3}')
 
     elif paused:
         pass
@@ -45,7 +46,7 @@ def mostrarotempo():
         slider_position = int(duracaototal)
         slider.config(to=slider_position, value=int(slider.get()))
         tempo2 = time.strftime('%M:%S', time.gmtime(int(slider.get())))
-        tempo.config(text=f'{tempo2}/{tempo3} ')
+        barra.config(text=f'{tempo2}/{tempo3} ')
 
         #fazer a barrinha se mexer
         next_time = int(slider.get()) +1
@@ -53,15 +54,8 @@ def mostrarotempo():
         
 
     
-    tempo.after(1000, mostrarotempo)
+    barra.after(1000, mostrarotempo)
 
-#barra de duração
-def barrinha(X):
-    songs = musicas.get(ACTIVE)
-    songs = f'C:/mp3player/musicas/{songs}.mp3'
-
-    pygame.mixer.music.load(songs)
-    pygame.mixer.music.play(loops=0, start=int(slider.get()))
 
 #configuração do menu adicionar/deletar músicas
 def adicionarmusicas():
@@ -86,7 +80,7 @@ def removerplaylist():
     
 #voltar à música anterior
 def musicaanterior():
-    barrinha.config(text='')
+    barra.config(text='')
     slider.config(value=0)
     
     prox = musicas.curselection()
@@ -101,7 +95,7 @@ def musicaanterior():
 
 #passar para a próxima música
 def musicaseguinte():
-    barrinha.config(text='')
+    barra.config(text='')
     slider.config(value=0)
     
     prox = musicas.curselection()
@@ -116,6 +110,9 @@ def musicaseguinte():
 
 #dar play
 def comecaramusica():
+    barra.config(text='')
+    slider.config(value=0)
+    
     songs = musicas.get(ACTIVE)
     songs = f'C:/mp3player/musicas/{songs}.mp3'
 
@@ -129,16 +126,24 @@ def comecaramusica():
 global stopped
 stopped = False
 def stop():
-    barrinha.config(text='')
+    barra.config(text='')
     slider.config(value=0)
 
     pygame.mixer.music.stop()
     musicas.selection_clear(ACTIVE)
 
-    barrinha.config(text='')
+    barra.config(text='')
 
     global stopped
     stopped = True
+
+#barra de duração
+def barrinha(X):
+    songs = musicas.get(ACTIVE)
+    songs = f'C:/mp3player/musicas/{songs}.mp3'
+
+    pygame.mixer.music.load(songs)
+    pygame.mixer.music.play(loops=0, start=int(slider.get()))
 
 
 #pausar a música
@@ -208,8 +213,8 @@ tempo.pack(fill=X, side=BOTTOM, ipady=2)
 
 
 #barrinha que mostra onde a música está
-barrinha = Label(root, text='', bd=1, relief=GROOVE, anchor=E)
-barrinha.pack(fill=X, side=BOTTOM, ipady=2)
+barra = Label(root, text='', bd=1, relief=GROOVE, anchor=E)
+barra.pack(fill=X, side=BOTTOM, ipady=2)
 
 
 s = ttk.Style()

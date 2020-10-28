@@ -215,7 +215,7 @@ barrinha.pack(fill=X, side=BOTTOM, ipady=2)
 s = ttk.Style()
 s.theme_use('clam')
 s.configure("blue.Horizontal.TScale", foreground='#e7feff', background='#99badd')
-slider = ttk.Scale(musicas_frame, from_=0, to=100, style="blue.Horizontal.TScale", orient=HORIZONTAL, value=0, command=barrinha, length=310)
+slider = ttk.Scale(musicas_frame, from_=0, to=100, style="blue.Horizontal.TScale", orient=HORIZONTAL, value=0, command=barrinha, length=475)
 slider.grid(row=2, column=0, pady=30)
 
 
